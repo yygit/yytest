@@ -8,18 +8,17 @@
 
 class DbHelper
 {
-    private $dbConnect;
+    private PDO $dbConnect;
 
     public function __construct()
     {
-        try {
-            $this->dbConnect = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', DB_USER, DB_PASS, [
-                PDO::ATTR_PERSISTENT => true
-            ]);
-        } catch (PDOException $e) {
-            echo __METHOD__ . ': PDO Error: ' . $e->getMessage() . '<br/>';
-            exit();
-        }
+	    try {
+		    $this->dbConnect = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', DB_USER, DB_PASS,
+			    [PDO::ATTR_PERSISTENT => true]);
+	    } catch (PDOException $e) {
+		    echo __METHOD__ . ': PDO Error: ' . $e->getMessage() . '<br/>';
+		    exit();
+	    }
     }
 
     /**
@@ -29,7 +28,7 @@ class DbHelper
      *
      * @return bool
      */
-    public function isUserPreviousVisit(string $ipAddress, string $userAgent, string $pageUrl)
+    public function isUserPreviousVisit(string $ipAddress, string $userAgent, string $pageUrl): bool
     {
         $sql = "SELECT count(`id`) FROM  `" . DB_TABLE_BANNERS_LOGS . "` WHERE `user_hash` = :user_hash";
 
@@ -40,14 +39,14 @@ class DbHelper
         return (bool)$st->fetchColumn();
     }
 
-    /**
-     * @param string $ipAddress
-     * @param string $userAgent
-     * @param string $pageUrl
-     *
-     * @return bool
-     */
-    public function insertUserDataBanners(string $ipAddress, string $userAgent, string $pageUrl)
+	/**
+	 * @param string $ipAddress
+	 * @param string $userAgent
+	 * @param string $pageUrl
+	 *
+	 * @return bool
+	 */
+    public function insertUserDataBanners(string $ipAddress, string $userAgent, string $pageUrl): bool
     {
         $date = date('Y-m-d H:i:s');
 
@@ -77,7 +76,7 @@ class DbHelper
      *
      * @return bool
      */
-    public function updateUserDataBanners(string $ipAddress, string $userAgent, string $pageUrl)
+    public function updateUserDataBanners(string $ipAddress, string $userAgent, string $pageUrl): bool
     {
         $sql = "UPDATE `" . DB_TABLE_BANNERS_LOGS . "` "
             . " SET `views_count` = `views_count` + 1"
@@ -95,7 +94,7 @@ class DbHelper
      *
      * @return string
      */
-    private static function getUserHash(string $ipAddress, string $userAgent, string $pageUrl)
+    private static function getUserHash(string $ipAddress, string $userAgent, string $pageUrl): string
     {
         return md5($ipAddress . $userAgent . $pageUrl);
     }

@@ -1,9 +1,10 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'yytest');
-define('DB_USER', 'yytest');
-define('DB_PASS', 'yytest');
-define('DB_TABLE_BANNERS_LOGS', 'banners_logs');
+
+const DB_HOST = 'mysql';
+const DB_NAME = 'test';
+const DB_USER = 'dev';
+const DB_PASS = 'dev';
+const DB_TABLE_BANNERS_LOGS = 'banners_logs';
 
 require_once '../classes/DbHelper.php';
 require_once '../classes/BannerHelper.php';
